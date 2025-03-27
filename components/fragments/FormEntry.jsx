@@ -18,9 +18,11 @@ const FormEntry = ({ onDataSubmitted }) => {
   const treatmentDropdownRef = useRef(null);
   const medicationDropdownRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOptions = async () => {
+      setLoading(true);
       try {
         const treatmentsResponse = await fetch("/api/manage/treatments");
         const medicationsResponse = await fetch("/api/manage/medications");
@@ -36,6 +38,8 @@ const FormEntry = ({ onDataSubmitted }) => {
         }
       } catch (error) {
         toast.error(`Failed to fetch options: ${error.message}`);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -218,36 +222,38 @@ const FormEntry = ({ onDataSubmitted }) => {
             <div className="relative w-full " ref={treatmentDropdownRef}>
               <button
                 type="button"
-                className="input input-bordered w-full text-left truncate cursor-pointer"
-                onClick={toggleTreatmentDropdown}
+                className={`input input-bordered w-full text-left truncate cursor-pointer ${
+                  loading ? "cursor-not-allowed" : ""
+                }`}
+                onClick={loading ? null : toggleTreatmentDropdown}
+                disabled={loading}
               >
-                {formData.treatmentDescriptions.length > 0
+                {loading
+                  ? "Fetching data..."
+                  : formData.treatmentDescriptions.length > 0
                   ? formData.treatmentDescriptions.join(", ")
                   : "Select Treatments"}
               </button>
-              {treatmentDropdownOpen && (
+              {treatmentDropdownOpen && !loading && (
                 <ul className="absolute z-10 mt-1 w-full bg-base-100 rounded-box shadow max-h-64 overflow-auto">
-                  {treatmentOptions.map(
-                    (
-                      option // Use fetched options
-                    ) => (
-                      <li key={option._id} className="p-2">
-                        <label className="flex items-center">
-                          <input
-                            type="checkbox"
-                            name="treatmentDescriptions"
-                            value={option.name}
-                            checked={formData.treatmentDescriptions.includes(
-                              option.name
-                            )}
-                            onChange={handleChange}
-                            className="checkbox"
-                          />
-                          <span className="ml-2">{option.name}</span>
-                        </label>
-                      </li>
-                    )
-                  )}
+                  {treatmentOptions.map((option) => (
+                    <li key={option._id} className="p-2">
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          name="treatmentDescriptions"
+                          value={option.name}
+                          checked={formData.treatmentDescriptions.includes(
+                            option.name
+                          )}
+                          onChange={handleChange}
+                          className="checkbox"
+                          disabled={loading}
+                        />
+                        <span className="ml-2">{option.name}</span>
+                      </label>
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
@@ -261,34 +267,36 @@ const FormEntry = ({ onDataSubmitted }) => {
             <div className="relative w-full" ref={medicationDropdownRef}>
               <button
                 type="button"
-                className="input input-bordered w-full text-left truncate cursor-pointer"
-                onClick={toggleMedicationDropdown}
+                className={`input input-bordered w-full text-left truncate cursor-pointer ${
+                  loading ? "cursor-not-allowed" : ""
+                }`}
+                onClick={loading ? null : toggleMedicationDropdown}
+                disabled={loading}
               >
-                {formData.medications.length > 0
+                {loading
+                  ? "Fetching data..."
+                  : formData.medications.length > 0
                   ? formData.medications.join(", ")
                   : "Select Medications"}
               </button>
-              {medicationDropdownOpen && (
+              {medicationDropdownOpen && !loading && (
                 <ul className="absolute z-10 mt-1 w-full bg-base-100 rounded-box shadow max-h-64 overflow-auto">
-                  {medicationOptions.map(
-                    (
-                      option // Use fetched options
-                    ) => (
-                      <li key={option._id} className="p-2">
-                        <label className="flex items-center">
-                          <input
-                            type="checkbox"
-                            name="medications"
-                            value={option.name}
-                            checked={formData.medications.includes(option.name)}
-                            onChange={handleChange}
-                            className="checkbox"
-                          />
-                          <span className="ml-2">{option.name}</span>
-                        </label>
-                      </li>
-                    )
-                  )}
+                  {medicationOptions.map((option) => (
+                    <li key={option._id} className="p-2">
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          name="medications"
+                          value={option.name}
+                          checked={formData.medications.includes(option.name)}
+                          onChange={handleChange}
+                          className="checkbox"
+                          disabled={loading}
+                        />
+                        <span className="ml-2">{option.name}</span>
+                      </label>
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
