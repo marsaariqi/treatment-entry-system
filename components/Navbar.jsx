@@ -49,7 +49,14 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className=""></a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/marsaariqi/"
+          className="text-secondary hover:scale-105 transition-transform"
+        >
+          oWo
+        </a>
       </div>
     </div>
   );
