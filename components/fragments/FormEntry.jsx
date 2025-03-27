@@ -236,24 +236,28 @@ const FormEntry = ({ onDataSubmitted }) => {
               </button>
               {treatmentDropdownOpen && !loading && (
                 <ul className="absolute z-10 mt-1 w-full bg-base-100 rounded-box shadow max-h-64 overflow-auto">
-                  {treatmentOptions.map((option) => (
-                    <li key={option._id} className="p-2">
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="treatmentDescriptions"
-                          value={option.name}
-                          checked={formData.treatmentDescriptions.includes(
-                            option.name
-                          )}
-                          onChange={handleChange}
-                          className="checkbox"
-                          disabled={loading}
-                        />
-                        <span className="ml-2">{option.name}</span>
-                      </label>
-                    </li>
-                  ))}
+                  {treatmentOptions.length > 0 ? (
+                    treatmentOptions.map((option) => (
+                      <li key={option._id} className="p-2">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="treatmentDescriptions"
+                            value={option.name}
+                            checked={formData.treatmentDescriptions.includes(
+                              option.name
+                            )}
+                            onChange={handleChange}
+                            className="checkbox"
+                            disabled={loading}
+                          />
+                          <span className="ml-2">{option.name}</span>
+                        </label>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-2 text-center">No treatments available</li>
+                  )}
                 </ul>
               )}
             </div>
@@ -281,22 +285,28 @@ const FormEntry = ({ onDataSubmitted }) => {
               </button>
               {medicationDropdownOpen && !loading && (
                 <ul className="absolute z-10 mt-1 w-full bg-base-100 rounded-box shadow max-h-64 overflow-auto">
-                  {medicationOptions.map((option) => (
-                    <li key={option._id} className="p-2">
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="medications"
-                          value={option.name}
-                          checked={formData.medications.includes(option.name)}
-                          onChange={handleChange}
-                          className="checkbox"
-                          disabled={loading}
-                        />
-                        <span className="ml-2">{option.name}</span>
-                      </label>
+                  {medicationOptions.length > 0 ? (
+                    medicationOptions.map((option) => (
+                      <li key={option._id} className="p-2">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="medications"
+                            value={option.name}
+                            checked={formData.medications.includes(option.name)}
+                            onChange={handleChange}
+                            className="checkbox"
+                            disabled={loading}
+                          />
+                          <span className="ml-2">{option.name}</span>
+                        </label>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-2 text-center">
+                      No medications available
                     </li>
-                  ))}
+                  )}
                 </ul>
               )}
             </div>
