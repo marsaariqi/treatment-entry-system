@@ -64,6 +64,13 @@ const ManageTable = ({ manageType, refetchTrigger }) => {
 
   if (error) return <div>Error: {error.message}</div>;
 
+  if (options.length === 0) {
+    return (
+      <div className="h-60 w-full border border-base-300 shadow-md rounded-xl p-2 flex justify-center items-center">
+        <p className="text-xl">No {manageType} available.</p>
+      </div>
+    );
+  }
   return (
     <div className="w-full border border-base-300 p-4 rounded-xl shadow-md">
       <h1 className="text-xl text-center font-semibold">{manageType}</h1>

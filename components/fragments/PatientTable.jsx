@@ -93,6 +93,14 @@ const PatientTable = ({ refetchTrigger }) => {
       </div>
     );
 
+  if (patientData.length === 0) {
+    return (
+      <div className="h-60 border border-base-300 shadow-md rounded-xl p-2 flex justify-center items-center">
+        <p className="text-xl">No patient data available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-x-auto border border-base-300 shadow-md rounded-xl p-2">
       <table className="table w-full">
