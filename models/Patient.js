@@ -8,7 +8,6 @@ const PatientSchema = new mongoose.Schema({
   patientId: {
     type: String,
     required: true,
-    unique: true,
   },
   treatmentDate: {
     type: Date,
